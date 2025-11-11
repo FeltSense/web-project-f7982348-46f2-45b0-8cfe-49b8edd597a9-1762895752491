@@ -16,7 +16,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 z-10">
+      <div className="container mx-auto px-6 z-10 pt-24 md:pt-32">
         <div className="max-w-4xl">
           <div className="inline-block bg-red-600/90 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6 backdrop-blur-sm">
             🔥 Over 10,000 Success Stories
