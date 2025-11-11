@@ -19,7 +19,7 @@ export default function Navigation() {
     { href: '#programs', label: 'Programs' },
     { href: '#testimonials', label: 'Success Stories' },
     { href: '#pricing', label: 'Pricing' },
-    { href: '/blog', label: 'Blog' },
+    { href: '/blog', label: 'Blog', isRoute: true },
     { href: '#contact', label: 'Contact' },
   ];
 
@@ -47,6 +47,12 @@ export default function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => {
+                  if (link.href === '/blog') {
+                    e.preventDefault();
+                    window.location.href = '/blog';
+                  }
+                }}
                 className={`font-medium transition-colors duration-300 hover:text-red-600 ${
                   isScrolled ? 'text-gray-700' : 'text-white'
                 }`}
@@ -80,7 +86,13 @@ export default function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => {
+                  setIsMobileMenuOpen(false);
+                  if (link.href === '/blog') {
+                    e.preventDefault();
+                    window.location.href = '/blog';
+                  }
+                }}
                 className="block text-gray-700 font-medium hover:text-red-600 transition-colors py-2"
               >
                 {link.label}
