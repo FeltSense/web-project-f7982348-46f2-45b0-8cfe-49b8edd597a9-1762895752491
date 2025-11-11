@@ -19,6 +19,7 @@ export default function Navigation() {
     { href: '#programs', label: 'Programs' },
     { href: '#testimonials', label: 'Success Stories' },
     { href: '#pricing', label: 'Pricing' },
+    { href: '/blog', label: 'Blog' },
     { href: '#contact', label: 'Contact' },
   ];
 
@@ -32,7 +33,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a
-            href="#"
+            href="/"
             className={`text-2xl font-bold transition-colors duration-300 ${
               isScrolled ? 'text-gray-900' : 'text-white'
             }`}
