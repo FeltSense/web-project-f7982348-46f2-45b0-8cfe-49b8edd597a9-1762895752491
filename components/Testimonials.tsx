@@ -1,8 +1,10 @@
 'use client';
 
-import { Star, Quote } from 'lucide-react';
+import { useState } from 'react';
+import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Testimonials() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const testimonials = [
     {
       name: 'Sarah Johnson',
@@ -48,6 +50,18 @@ export default function Testimonials() {
     },
   ];
 
+  const nextTestimonial = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   return (
     <section id="testimonials" className="py-24 bg-white">
       <div className="container mx-auto px-6">
@@ -61,44 +75,84 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {/* Testimonials Carousel-style Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100"
+        {/* Testimonials Carousel */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevTestimonial}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:bg-red-50"
+          >
+            <ChevronLeft size={24} className="text-red-600" />
+          </button>
+          
+          <button
+            onClick={nextTestimonial}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:bg-red-50"
+          >
+            <ChevronRight size={24} className="text-red-600" />
+          </button>
+
+          {/* Carousel Container */}
+          <div className="overflow-hidden rounded-2xl">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {/* Quote Icon */}
-              <div className="absolute top-6 right-6 text-red-600/10">
-                <Quote size={48} fill="currentColor" />
-              </div>
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="w-full flex-shrink-0 px-4"
+                >
+                  <div className="relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-12 shadow-lg border border-gray-100 max-w-3xl mx-auto">
+                    {/* Quote Icon */}
+                    <div className="absolute top-8 right-8 text-red-600/10">
+                      <Quote size={64} fill="currentColor" />
+                    </div>
 
-              {/* Rating */}
-              <div className="flex gap-1 mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} size={20} className="fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
+                    {/* Rating */}
+                    <div className="flex gap-1 mb-8 justify-center">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} size={24} className="fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
 
-              {/* Quote */}
-              <p className="text-gray-700 leading-relaxed mb-8 relative z-10">
-                "{testimonial.quote}"
-              </p>
+                    {/* Quote */}
+                    <p className="text-gray-700 leading-relaxed mb-10 relative z-10 text-lg text-center">
+                      "{testimonial.quote}"
+                    </p>
 
-              {/* Profile */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-14 h-14 rounded-full object-cover ring-4 ring-red-100"
-                />
-                <div>
-                  <div className="font-bold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-red-600 font-semibold">{testimonial.role}</div>
+                    {/* Profile */}
+                    <div className="flex items-center gap-6 justify-center">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-16 h-16 rounded-full object-cover ring-4 ring-red-100"
+                      />
+                      <div className="text-center">
+                        <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
+                        <div className="text-red-600 font-semibold">{testimonial.role}</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-3 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-red-600 scale-125' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Stats Bar */}
